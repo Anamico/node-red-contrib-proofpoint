@@ -1,0 +1,1081 @@
+{
+  "name": "node-red-contrib-proofpoint",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "node-red": {
+    "nodes": {
+      "poll": "poll.js"
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.1",
+    "request": "^2.88.0"
+  },
+  "test": [
+    {
+      "id": "5666b881.ad6cb8",
+      "type": "tab",
+      "label": "Proofpoint -> TIE",
+      "disabled": false,
+      "info": ""
+    },
+    {
+      "id": "b34715c3.9165d8",
+      "type": "tab",
+      "label": "Emulate TIE",
+      "disabled": false,
+      "info": ""
+    },
+    {
+      "id": "cbbcb311.20c46",
+      "type": "tab",
+      "label": "Examples",
+      "disabled": false,
+      "info": ""
+    },
+    {
+      "id": "9f1e9d7a.e327d",
+      "type": "tab",
+      "label": "Flow 5",
+      "disabled": false,
+      "info": ""
+    },
+    {
+      "id": "87fa1f19.360eb",
+      "type": "subflow",
+      "name": "Load Last Timestamp",
+      "info": "",
+      "in": [
+        {
+          "x": 40,
+          "y": 40,
+          "wires": [
+            {
+              "id": "4343e02.e1ca62"
+            }
+          ]
+        }
+      ],
+      "out": [
+        {
+          "x": 820,
+          "y": 40,
+          "wires": [
+            {
+              "id": "6de7f7b4.a0ccb8",
+              "port": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "194dfb81.fc9074",
+      "type": "subflow",
+      "name": "Proofpoint Request",
+      "info": "",
+      "in": [
+        {
+          "x": 40,
+          "y": 60,
+          "wires": [
+            {
+              "id": "4b3672be.d916ac"
+            }
+          ]
+        }
+      ],
+      "out": [
+        {
+          "x": 1020,
+          "y": 60,
+          "wires": [
+            {
+              "id": "d496d5ce.e7db38",
+              "port": 0
+            }
+          ]
+        },
+        {
+          "x": 1020,
+          "y": 200,
+          "wires": [
+            {
+              "id": "47f1f2a.fdd780c",
+              "port": 0
+            }
+          ]
+        }
+      ],
+      "outputLabels": [
+        "Proofpoint Response",
+        "Last Sync Timestamp"
+      ]
+    },
+    {
+      "id": "3db6f498.d35e1c",
+      "type": "subflow",
+      "name": "Save Last Timestamp",
+      "info": "",
+      "in": [
+        {
+          "x": 140,
+          "y": 100,
+          "wires": [
+            {
+              "id": "f7231220.e168d"
+            }
+          ]
+        }
+      ],
+      "out": [
+        {
+          "x": 740,
+          "y": 100,
+          "wires": [
+            {
+              "id": "f7231220.e168d",
+              "port": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "40c45bfb.2564e4",
+      "type": "subflow",
+      "name": "Wildfire Request",
+      "info": "",
+      "in": [
+        {
+          "x": 50,
+          "y": 30,
+          "wires": [
+            {
+              "id": "f7f48ec.0ab287"
+            }
+          ]
+        }
+      ],
+      "out": [
+        {
+          "x": 1000,
+          "y": 60,
+          "wires": [
+            {
+              "id": "d3b97e7e.ed42c",
+              "port": 0
+            }
+          ]
+        },
+        {
+          "x": 1000,
+          "y": 200,
+          "wires": [
+            {
+              "id": "fb80067f.ba7d08",
+              "port": 0
+            }
+          ]
+        }
+      ],
+      "inputLabels": [
+        "Trigger"
+      ]
+    },
+    {
+      "id": "3d986feb.9ed3",
+      "type": "ui_tab",
+      "z": "",
+      "name": "Home",
+      "icon": "dashboard"
+    },
+    {
+      "id": "894e0ed4.d7e06",
+      "type": "ui_group",
+      "z": "",
+      "name": "Status",
+      "tab": "3d986feb.9ed3",
+      "disp": true,
+      "width": "6",
+      "collapse": false
+    },
+    {
+      "id": "eb101508.8cff18",
+      "type": "ui_base",
+      "theme": {
+        "name": "theme-light",
+        "lightTheme": {
+          "default": "#0094CE",
+          "baseColor": "#0094CE",
+          "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+          "edited": true,
+          "reset": false
+        },
+        "darkTheme": {
+          "default": "#097479",
+          "baseColor": "#097479",
+          "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+          "edited": false
+        },
+        "customTheme": {
+          "name": "Untitled Theme 1",
+          "default": "#4B7930",
+          "baseColor": "#4B7930",
+          "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+        },
+        "themeState": {
+          "base-color": {
+            "default": "#0094CE",
+            "value": "#0094CE",
+            "edited": false
+          },
+          "page-titlebar-backgroundColor": {
+            "value": "#0094CE",
+            "edited": false
+          },
+          "page-backgroundColor": {
+            "value": "#fafafa",
+            "edited": false
+          },
+          "page-sidebar-backgroundColor": {
+            "value": "#ffffff",
+            "edited": false
+          },
+          "group-textColor": {
+            "value": "#1bbfff",
+            "edited": false
+          },
+          "group-borderColor": {
+            "value": "#ffffff",
+            "edited": false
+          },
+          "group-backgroundColor": {
+            "value": "#ffffff",
+            "edited": false
+          },
+          "widget-textColor": {
+            "value": "#111111",
+            "edited": false
+          },
+          "widget-backgroundColor": {
+            "value": "#0094ce",
+            "edited": false
+          },
+          "widget-borderColor": {
+            "value": "#ffffff",
+            "edited": false
+          },
+          "base-font": {
+            "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+          }
+        }
+      },
+      "site": {
+        "name": "Node-RED Dashboard",
+        "hideToolbar": "false",
+        "allowSwipe": "false",
+        "allowTempTheme": "true",
+        "dateFormat": "DD/MM/YYYY",
+        "sizes": {
+          "sx": 48,
+          "sy": 48,
+          "gx": 6,
+          "gy": 6,
+          "cx": 6,
+          "cy": 6,
+          "px": 0,
+          "py": 0
+        }
+      }
+    },
+    {
+      "id": "631d61da.e0bee",
+      "type": "dxl-client",
+      "z": "",
+      "configFile": "/data/mocktie/dxlclient.config",
+      "name": "TIE Emulator",
+      "keepAliveInterval": "1800",
+      "reconnectDelay": "1"
+    },
+    {
+      "id": "bcfeac1.b11595",
+      "type": "dxl-client",
+      "z": "",
+      "configFile": "/data/proofpoint/dxlclient.config",
+      "name": "Proofpoint",
+      "keepAliveInterval": "1800",
+      "reconnectDelay": "1"
+    },
+    {
+      "id": "60791280.2cae6c",
+      "type": "ui_tab",
+      "z": "",
+      "name": "Rob's Dashboard",
+      "icon": "dashboard"
+    },
+    {
+      "id": "37059607.418c9a",
+      "type": "ui_group",
+      "z": "",
+      "name": "Default",
+      "tab": "60791280.2cae6c",
+      "disp": true,
+      "width": "6",
+      "collapse": false
+    },
+    {
+      "id": "d496d5ce.e7db38",
+      "type": "http request",
+      "z": "194dfb81.fc9074",
+      "name": "Proofpoint Request",
+      "method": "GET",
+      "ret": "obj",
+      "url": "https://tap-api-v2.proofpoint.com/v2/siem/all?threatType=attachment&format=JSON&{{{param}}}",
+      "tls": "",
+      "x": 550,
+      "y": 100,
+      "wires": [
+        [
+          "47f1f2a.fdd780c"
+        ]
+      ]
+    },
+    {
+      "id": "cdf0181f.341d48",
+      "type": "file",
+      "z": "3db6f498.d35e1c",
+      "name": "Save Last Timestamp",
+      "filename": "/data/lastPollTime.json",
+      "appendNewline": false,
+      "createDir": false,
+      "overwriteFile": "true",
+      "x": 760,
+      "y": 180,
+      "wires": []
+    },
+    {
+      "id": "4343e02.e1ca62",
+      "type": "file in",
+      "z": "87fa1f19.360eb",
+      "name": "Read Last Timestamp",
+      "filename": "/data/lastPollTime.json",
+      "format": "utf8",
+      "chunk": false,
+      "sendError": false,
+      "x": 220,
+      "y": 40,
+      "wires": [
+        [
+          "84d8214.98887e"
+        ]
+      ]
+    },
+    {
+      "id": "f7231220.e168d",
+      "type": "function",
+      "z": "3db6f498.d35e1c",
+      "name": "Extract Last Timestamp",
+      "func": "if (msg.payload.queryEndTime) {\n    const date = new Date(msg.payload.queryEndTime);\n    return { payload: {\n        lastTimestamp: date.getTime() / 1000\n    }};\n}",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 330,
+      "y": 100,
+      "wires": [
+        [
+          "b3f73553.313458"
+        ]
+      ]
+    },
+    {
+      "id": "b3f73553.313458",
+      "type": "json",
+      "z": "3db6f498.d35e1c",
+      "name": "",
+      "property": "payload",
+      "action": "str",
+      "pretty": false,
+      "x": 550,
+      "y": 180,
+      "wires": [
+        [
+          "cdf0181f.341d48"
+        ]
+      ]
+    },
+    {
+      "id": "84d8214.98887e",
+      "type": "json",
+      "z": "87fa1f19.360eb",
+      "name": "",
+      "property": "payload",
+      "action": "obj",
+      "pretty": false,
+      "x": 410,
+      "y": 40,
+      "wires": [
+        [
+          "6de7f7b4.a0ccb8"
+        ]
+      ]
+    },
+    {
+      "id": "671eb947.3a5438",
+      "type": "dxl-core-service",
+      "z": "b34715c3.9165d8",
+      "name": "",
+      "serviceType": "TIE",
+      "client": "631d61da.e0bee",
+      "rules": [
+        {
+          "payloadType": "obj",
+          "topic": "/mcafee/service/tie/file/reputation/set"
+        }
+      ],
+      "outputs": 1,
+      "x": 280,
+      "y": 120,
+      "wires": [
+        [
+          "50ae68ee.d20bb8",
+          "e2beb024.178da"
+        ]
+      ]
+    },
+    {
+      "id": "bf43273f.1a0c78",
+      "type": "dxl-core-response",
+      "z": "b34715c3.9165d8",
+      "name": "",
+      "client": "631d61da.e0bee",
+      "x": 790,
+      "y": 120,
+      "wires": []
+    },
+    {
+      "id": "50ae68ee.d20bb8",
+      "type": "template",
+      "z": "b34715c3.9165d8",
+      "name": "Success Payload",
+      "field": "payload",
+      "fieldType": "msg",
+      "format": "json",
+      "syntax": "plain",
+      "template": "{\n    \"status\": \"success\"\n}",
+      "output": "str",
+      "x": 530,
+      "y": 120,
+      "wires": [
+        [
+          "bf43273f.1a0c78"
+        ]
+      ]
+    },
+    {
+      "id": "e2beb024.178da",
+      "type": "debug",
+      "z": "b34715c3.9165d8",
+      "name": "",
+      "active": false,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "x": 510,
+      "y": 60,
+      "wires": []
+    },
+    {
+      "id": "49f31e6d.bbce7",
+      "type": "inject",
+      "z": "5666b881.ad6cb8",
+      "name": "Timer",
+      "topic": "",
+      "payload": "",
+      "payloadType": "date",
+      "repeat": "600",
+      "crontab": "",
+      "once": true,
+      "onceDelay": 0.1,
+      "x": 170,
+      "y": 240,
+      "wires": [
+        [
+          "39b5ec34.f072e4"
+        ]
+      ]
+    },
+    {
+      "id": "21f5f7b.4794508",
+      "type": "debug",
+      "z": "5666b881.ad6cb8",
+      "name": "Proofpoint Response",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "payload",
+      "x": 660,
+      "y": 220,
+      "wires": []
+    },
+    {
+      "id": "4b3672be.d916ac",
+      "type": "subflow:87fa1f19.360eb",
+      "z": "194dfb81.fc9074",
+      "name": "",
+      "x": 280,
+      "y": 100,
+      "wires": [
+        [
+          "d496d5ce.e7db38",
+          "f082fdc7.78316"
+        ]
+      ]
+    },
+    {
+      "id": "39b5ec34.f072e4",
+      "type": "subflow:194dfb81.fc9074",
+      "z": "5666b881.ad6cb8",
+      "name": "",
+      "x": 370,
+      "y": 240,
+      "wires": [
+        [
+          "21f5f7b.4794508",
+          "6be08526.0416dc"
+        ],
+        [
+          "1ef0572a.425eb9"
+        ]
+      ]
+    },
+    {
+      "id": "1657d0b.278a92f",
+      "type": "inject",
+      "z": "5666b881.ad6cb8",
+      "name": "Test Proofpoint",
+      "topic": "",
+      "payload": "{ \"test\": 1 }",
+      "payloadType": "json",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "x": 160,
+      "y": 80,
+      "wires": [
+        [
+          "d67ed793.a26ff8"
+        ]
+      ]
+    },
+    {
+      "id": "6de7f7b4.a0ccb8",
+      "type": "function",
+      "z": "87fa1f19.360eb",
+      "name": "Make Proofpoint Query",
+      "func": "//var tzoffset = (new Date()).getTimezoneOffset() * 60\nvar now = (new Date()).getTime() / 1000 //- tzoffset\nvar oldestAllowed = now - (7 * 24 * 60 * 60) + 60 // allow a 1 minute buffer\n\nvar startUnix = Math.max(\n    (msg.payload && msg.payload.lastTimestamp) || 0,\n    oldestAllowed);\n\nvar endUnix = Math.min(\n    startUnix + (60 * 60),\n    now);\n\nvar startTime = new Date(startUnix * 1000).toISOString();\nvar endTime = new Date(endUnix * 1000).toISOString();\nvar param = startUnix + (60 * 60) > now ?\n            \"sinceTime=\" + startTime :\n            \"interval=\" + startTime + \"/\" + endTime;\n            \nreturn {\n    payload: {\n        startTime: startTime,\n        endTime: endTime,\n        param: param\n    },\n    param: param\n};",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 630,
+      "y": 40,
+      "wires": [
+        []
+      ]
+    },
+    {
+      "id": "6be08526.0416dc",
+      "type": "function",
+      "z": "5666b881.ad6cb8",
+      "name": "Proofpoint Payloads",
+      "func": "\nvar payloads = (msg.payload && msg.payload.messagesBlocked && msg.payload.messagesBlocked.reduce(\n    (memo, message) => {\n        if (message.messageParts && (message.messageParts.length > 0)) {\n            return message.messageParts.reduce(\n                (memo, part) => {\n                    \n                    if (part.sandboxStatus == \"threat\") {\n                        memo.push({\n                            payload: {\n                                trustLevel: 1,  // KNOWN_MALICIOUS\n                                providerId: 3,  // ENTERPRISE\n                                filename: part.filename,\n                                comment: \"from Proofpoint\",\n                                hashes: [{\n                                    type: \"md5\",\n                                    value: part.md5\n                                }, {\n                                    type: \"sha256\",\n                                    value: part.sha256\n                                }]\n                            }\n                        });\n                    }\n                    \n                    return memo;\n                }, memo);\n        }\n        return memo\n    },\n    [])) || []\n    \nif (payloads.length > 0) {\n    return [payloads];\n}\n\nreturn\n// \"messagesBlocked\":[{\n//          \"GUID\":\"c26dbea0-80d5-463b-b93c-4e8b708219ce\",\n//          \"QID\":\"r2FNwRHF004109\",\n//          \"ccAddresses\":[\n//             \"bruce.wayne@university-of-education.zz\"\n//          ],\n//          \"clusterId\":\"pharmtech_hosted\",\n//          \"completelyRewritten\":\"true\",\n//          \"fromAddress\":\"badguy@evil.zz\",\n//          \"headerCC\":\"\\\"Bruce Wayne\\\" <bruce.wayne@university-of-education.zz>\",\n//          \"headerFrom\":\"\\\"A. Badguy\\\" <badguy@evil.zz>\",\n//          \"headerReplyTo\":null,\n//          \"headerTo\":\"\\\"Clark Kent\\\" <clark.kent@pharmtech.zz>; \\\"Diana Prince\\\" <diana.prince@pharmtech.zz>\",\n//          \"impostorScore\":0,\n//          \"malwareScore\":100,\n//          \"messageID\":\"20160624211145.62086.mail@evil.zz\",\n//          \"messageParts\":[\n//             {\n//               \"contentType\":\"text/plain\",\n//               \"disposition\":\"inline\",\n//               \"filename\":\"text.txt\",\n//               \"md5\":\"008c5926ca861023c1d2a36653fd88e2\",\n//               \"oContentType\":\"text/plain\",\n//               \"sandboxStatus\":\"unsupported\",\n//               \"sha256\":\"85738f8f9a7f1b04b5329c590ebcb9e425925c6d0984089c43a022de4f19c281\"\n//             },\n//             {\n//               \"contentType\":\"application/pdf\",\n//               \"disposition\":\"attached\",\n//               \"filename\":\"Invoice for Pharmtech.pdf\",\n//               \"md5\":\"5873c7d37608e0d49bcaa6f32b6c731f\",\n//               \"oContentType\":\"application/pdf\",\n//               \"sandboxStatus\":\"threat\",\n//               \"sha256\":\"2fab740f143fc1aa4c1cd0146d334c5593b1428f6d062b2c406e5efe8abe95ca\"\n//             }\n//          ],",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 660,
+      "y": 160,
+      "wires": [
+        [
+          "653c0759.936b18"
+        ]
+      ]
+    },
+    {
+      "id": "653c0759.936b18",
+      "type": "dxl-core-request",
+      "z": "5666b881.ad6cb8",
+      "name": "Send to TIE",
+      "topic": "/mcafee/service/tie/file/reputation/set",
+      "client": "bcfeac1.b11595",
+      "returnType": "obj",
+      "x": 910,
+      "y": 160,
+      "wires": [
+        [
+          "a8941c43.e7dbd"
+        ]
+      ]
+    },
+    {
+      "id": "47f1f2a.fdd780c",
+      "type": "subflow:3db6f498.d35e1c",
+      "z": "194dfb81.fc9074",
+      "name": "",
+      "x": 820,
+      "y": 200,
+      "wires": [
+        []
+      ]
+    },
+    {
+      "id": "a8941c43.e7dbd",
+      "type": "debug",
+      "z": "5666b881.ad6cb8",
+      "name": "TIE Response",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "payload",
+      "x": 1120,
+      "y": 160,
+      "wires": []
+    },
+    {
+      "id": "f082fdc7.78316",
+      "type": "debug",
+      "z": "194dfb81.fc9074",
+      "name": "",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "x": 530,
+      "y": 40,
+      "wires": []
+    },
+    {
+      "id": "d67ed793.a26ff8",
+      "type": "template",
+      "z": "5666b881.ad6cb8",
+      "name": "Proofpoint Example",
+      "field": "payload",
+      "fieldType": "msg",
+      "format": "json",
+      "syntax": "mustache",
+      "template": "{\n    \"clicksPermitted\": [],\n    \"clicksBlocked\": [],\n    \"messagesDelivered\": [],\n    \"messagesBlocked\":[{\n         \"GUID\":\"c26dbea0-80d5-463b-b93c-4e8b708219ce\",\n         \"QID\":\"r2FNwRHF004109\",\n         \"ccAddresses\":[\n            \"bruce.wayne@university-of-education.zz\"\n         ],\n         \"clusterId\":\"pharmtech_hosted\",\n         \"completelyRewritten\":\"true\",\n         \"fromAddress\":\"badguy@evil.zz\",\n         \"headerCC\":\"\\\"Bruce Wayne\\\" <bruce.wayne@university-of-education.zz>\",\n         \"headerFrom\":\"\\\"A. Badguy\\\" <badguy@evil.zz>\",\n         \"headerReplyTo\":null,\n         \"headerTo\":\"\\\"Clark Kent\\\" <clark.kent@pharmtech.zz>; \\\"Diana Prince\\\" <diana.prince@pharmtech.zz>\",\n         \"impostorScore\":0,\n         \"malwareScore\":100,\n         \"messageID\":\"20160624211145.62086.mail@evil.zz\",\n         \"messageParts\":[\n            {\n               \"contentType\":\"text/plain\",\n               \"disposition\":\"inline\",\n               \"filename\":\"text.txt\",\n               \"md5\":\"008c5926ca861023c1d2a36653fd88e2\",\n               \"oContentType\":\"text/plain\",\n               \"sandboxStatus\":\"unsupported\",\n               \"sha256\":\"85738f8f9a7f1b04b5329c590ebcb9e425925c6d0984089c43a022de4f19c281\"\n            },\n            {\n               \"contentType\":\"application/pdf\",\n               \"disposition\":\"attached\",\n               \"filename\":\"Invoice for Pharmtech.pdf\",\n               \"md5\":\"5873c7d37608e0d49bcaa6f32b6c731f\",\n               \"oContentType\":\"application/pdf\",\n               \"sandboxStatus\":\"threat\",\n               \"sha256\":\"2fab740f143fc1aa4c1cd0146d334c5593b1428f6d062b2c406e5efe8abe95ca\"\n            }\n         ],\n         \"messageTime\":\"2016-06-24T21:18:38.000Z\",\n         \"modulesRun\":[\n            \"pdr\",\n            \"sandbox\",\n            \"spam\",\n            \"urldefense\"\n         ],\n         \"phishScore\":46,\n         \"policyRoutes\":[\n            \"default_inbound\",\n            \"executives\"\n         ],\n         \"quarantineFolder\":\"Attachment Defense\",\n         \"quarantineRule\":\"module.sandbox.threat\",\n         \"recipient\":[\n            \"clark.kent@pharmtech.zz\",\n            \"diana.prince@pharmtech.zz\"\n         ],\n         \"replyToAddress\":null,\n         \"sender\":\"e99d7ed5580193f36a51f597bc2c0210@evil.zz\",\n         \"senderIP\":\"192.0.2.255\",\n         \"spamScore\":4,\n         \"subject\":\"Please find a totally safe invoice attached.\",\n         \"threatsInfoMap\":[\n            {\n               \"campaignId\":\"46e01b8a-c899-404d-bcd9-189bb393d1a7\",\n               \"classification\":\"MALWARE\",\n               \"threat\":\"2fab740f143fc1aa4c1cd0146d334c5593b1428f6d062b2c406e5efe8abe95ca\",\n               \"threatId\":\"2fab740f143fc1aa4c1cd0146d334c5593b1428f6d062b2c406e5efe8abe95ca\",\n               \"threatStatus\":\"active\",\n               \"threatTime\":\"2016-06-24T21:18:38.000Z\",\n               \"threatType\":\"ATTACHMENT\",\n               \"threatUrl\":\"https://threatinsight.proofpoint.com/#/73aa0499-dfc8-75eb-1de8-a471b24a2e75/threat/u/2fab740f143fc1aa4c1cd0146d334c5593b1428f6d062b2c406e5efe8abe95ca\"\n            },\n            {\n               \"campaignId\":\"46e01b8a-c899-404d-bcd9-189bb393d1a7\",\n               \"classification\":\"MALWARE\",\n               \"threat\":\"badsite.zz\",\n               \"threatId\":\"3ba97fc852c66a7ba761450edfdfb9f4ffab74715b591294f78b5e37a76481aa\",\n               \"threatTime\":\"2016-06-24T21:18:07.000Z\",\n               \"threatType\":\"URL\",\n               \"threatUrl\":\"https://threatinsight.proofpoint.com/#/73aa0499-dfc8-75eb-1de8-a471b24a2e75/threat/u/3ba97fc852c66a7ba761450edfdfb9f4ffab74715b591294f78b5e37a76481aa\"\n            }\n         ],\n         \"toAddresses\":[\n            \"clark.kent@pharmtech.zz\",\n            \"diana.prince@pharmtech.zz\"\n         ]\n      }\n   ],\n   \"queryEndTime\": \"2018-09-11T06:00:00Z\"\n}",
+      "output": "json",
+      "x": 370,
+      "y": 80,
+      "wires": [
+        [
+          "6be08526.0416dc"
+        ]
+      ]
+    },
+    {
+      "id": "4e478bf7.83ba04",
+      "type": "comment",
+      "z": "194dfb81.fc9074",
+      "name": "Proofpoint Response",
+      "info": "",
+      "x": 1160,
+      "y": 60,
+      "wires": []
+    },
+    {
+      "id": "263c802.928428",
+      "type": "comment",
+      "z": "194dfb81.fc9074",
+      "name": "Last Sync Timestamp",
+      "info": "",
+      "x": 1160,
+      "y": 200,
+      "wires": []
+    },
+    {
+      "id": "5dd0575d.07f3b8",
+      "type": "ui_text",
+      "z": "5666b881.ad6cb8",
+      "group": "894e0ed4.d7e06",
+      "order": 0,
+      "width": 0,
+      "height": 0,
+      "name": "",
+      "label": "Last Proofpoint Sync",
+      "format": "{{msg.payload.lastTimestamp}}",
+      "layout": "row-spread",
+      "x": 920,
+      "y": 300,
+      "wires": []
+    },
+    {
+      "id": "1ef0572a.425eb9",
+      "type": "function",
+      "z": "5666b881.ad6cb8",
+      "name": "Convert to Date/Time",
+      "func": "\nconst lastTimestamp = msg.payload && msg.payload.lastTimestamp\nif (!lastTimestamp) {\n    return\n}\n\nconst lastSync = new Date(lastTimestamp * 1000)\nreturn {\n    payload: {\n        lastDateTime: lastSync.toLocaleDateString()\n    }\n};",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 660,
+      "y": 300,
+      "wires": [
+        [
+          "5dd0575d.07f3b8",
+          "6cc1bfef.a1ae2"
+        ]
+      ]
+    },
+    {
+      "id": "6cc1bfef.a1ae2",
+      "type": "debug",
+      "z": "5666b881.ad6cb8",
+      "name": "",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "x": 890,
+      "y": 340,
+      "wires": []
+    },
+    {
+      "id": "a1e1011d.758e9",
+      "type": "dxl-core-request",
+      "z": "cbbcb311.20c46",
+      "name": "Send to TIE",
+      "topic": "/mcafee/service/tie/file/reputation/set",
+      "client": "bcfeac1.b11595",
+      "returnType": "obj",
+      "x": 430,
+      "y": 140,
+      "wires": [
+        [
+          "f90d8b4d.c280f8"
+        ]
+      ]
+    },
+    {
+      "id": "9b695191.0952c",
+      "type": "inject",
+      "z": "cbbcb311.20c46",
+      "name": "",
+      "topic": "",
+      "payload": "{\"hi\":3}",
+      "payloadType": "json",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "x": 130,
+      "y": 160,
+      "wires": [
+        [
+          "a1e1011d.758e9"
+        ]
+      ]
+    },
+    {
+      "id": "f90d8b4d.c280f8",
+      "type": "debug",
+      "z": "cbbcb311.20c46",
+      "name": "",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "x": 690,
+      "y": 160,
+      "wires": []
+    },
+    {
+      "id": "8a9aecb.f10231",
+      "type": "http in",
+      "z": "cbbcb311.20c46",
+      "name": "",
+      "url": "/rob",
+      "method": "get",
+      "upload": false,
+      "swaggerDoc": "",
+      "x": 210,
+      "y": 360,
+      "wires": [
+        [
+          "f8329ec0.ae1e"
+        ]
+      ]
+    },
+    {
+      "id": "4abcd44.9dfde2c",
+      "type": "http response",
+      "z": "cbbcb311.20c46",
+      "name": "",
+      "statusCode": "",
+      "headers": {},
+      "x": 590,
+      "y": 360,
+      "wires": []
+    },
+    {
+      "id": "f8329ec0.ae1e",
+      "type": "template",
+      "z": "cbbcb311.20c46",
+      "name": "",
+      "field": "payload",
+      "fieldType": "msg",
+      "format": "html",
+      "syntax": "mustache",
+      "template": "<h1>Josh's Home Page</h1>\n\nHi, I'm Josh!",
+      "output": "str",
+      "x": 400,
+      "y": 360,
+      "wires": [
+        [
+          "4abcd44.9dfde2c"
+        ]
+      ]
+    },
+    {
+      "id": "cf356033.b243d",
+      "type": "ui_slider",
+      "z": "cbbcb311.20c46",
+      "name": "",
+      "label": "Amount",
+      "group": "37059607.418c9a",
+      "order": 0,
+      "width": 0,
+      "height": 0,
+      "passthru": true,
+      "topic": "",
+      "min": 0,
+      "max": "1000",
+      "step": 1,
+      "x": 140,
+      "y": 540,
+      "wires": [
+        [
+          "32c72495.2f786c"
+        ]
+      ]
+    },
+    {
+      "id": "ba8c1f1a.02246",
+      "type": "ui_gauge",
+      "z": "cbbcb311.20c46",
+      "name": "",
+      "group": "37059607.418c9a",
+      "order": 0,
+      "width": 0,
+      "height": 0,
+      "gtype": "gage",
+      "title": "Pressure",
+      "label": "units",
+      "format": "{{value}}",
+      "min": 0,
+      "max": "1000",
+      "colors": [
+        "#00b500",
+        "#e6e600",
+        "#ca3838"
+      ],
+      "seg1": "800",
+      "seg2": "900",
+      "x": 840,
+      "y": 540,
+      "wires": []
+    },
+    {
+      "id": "32c72495.2f786c",
+      "type": "dxl-core-event out",
+      "z": "cbbcb311.20c46",
+      "name": "",
+      "topic": "/rob/value",
+      "client": "bcfeac1.b11595",
+      "x": 350,
+      "y": 500,
+      "wires": []
+    },
+    {
+      "id": "a1ff41b0.16b4b",
+      "type": "dxl-core-event in",
+      "z": "cbbcb311.20c46",
+      "name": "",
+      "topic": "/rob/value",
+      "client": "631d61da.e0bee",
+      "payloadType": "txt",
+      "x": 530,
+      "y": 620,
+      "wires": [
+        [
+          "ba8c1f1a.02246"
+        ]
+      ]
+    },
+    {
+      "id": "d3b97e7e.ed42c",
+      "type": "http request",
+      "z": "40c45bfb.2564e4",
+      "name": "Wildfire Request",
+      "method": "GET",
+      "ret": "obj",
+      "url": "https://10.1.1.1/publicapi/get/verdicts/changed?threatType=attachment&format=JSON&{{{param}}}",
+      "tls": "",
+      "x": 500,
+      "y": 100,
+      "wires": [
+        [
+          "fb80067f.ba7d08"
+        ]
+      ]
+    },
+    {
+      "id": "f7f48ec.0ab287",
+      "type": "subflow:87fa1f19.360eb",
+      "z": "40c45bfb.2564e4",
+      "name": "",
+      "x": 240,
+      "y": 100,
+      "wires": [
+        [
+          "d3b97e7e.ed42c",
+          "c978ce39.ded6a"
+        ]
+      ]
+    },
+    {
+      "id": "fb80067f.ba7d08",
+      "type": "subflow:3db6f498.d35e1c",
+      "z": "40c45bfb.2564e4",
+      "name": "",
+      "x": 780,
+      "y": 200,
+      "wires": [
+        []
+      ]
+    },
+    {
+      "id": "c978ce39.ded6a",
+      "type": "debug",
+      "z": "40c45bfb.2564e4",
+      "name": "",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "x": 490,
+      "y": 40,
+      "wires": []
+    },
+    {
+      "id": "2fa1623d.46c01e",
+      "type": "inject",
+      "z": "9f1e9d7a.e327d",
+      "name": "",
+      "topic": "",
+      "payload": "",
+      "payloadType": "date",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "x": 160,
+      "y": 160,
+      "wires": [
+        [
+          "49d0077e.c43aa8"
+        ]
+      ]
+    },
+    {
+      "id": "49d0077e.c43aa8",
+      "type": "debug",
+      "z": "9f1e9d7a.e327d",
+      "name": "Debug Output",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "payload",
+      "x": 400,
+      "y": 160,
+      "wires": []
+    },
+    {
+      "id": "6dbb2d2b.d20c44",
+      "type": "poll",
+      "z": "5666b881.ad6cb8",
+      "name": "",
+      "x": 300,
+      "y": 400,
+      "wires": [
+        [
+          "9bbf3b07.766678"
+        ]
+      ]
+    },
+    {
+      "id": "9bbf3b07.766678",
+      "type": "debug",
+      "z": "5666b881.ad6cb8",
+      "name": "",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "x": 500,
+      "y": 400,
+      "wires": []
+    },
+    {
+      "id": "486709fc.5504f8",
+      "type": "inject",
+      "z": "5666b881.ad6cb8",
+      "name": "",
+      "topic": "",
+      "payload": "FrEd",
+      "payloadType": "str",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "x": 110,
+      "y": 400,
+      "wires": [
+        [
+          "6dbb2d2b.d20c44"
+        ]
+      ]
+    },
+    {
+      "id": "18ba701b.5abf6",
+      "type": "inject",
+      "z": "87fa1f19.360eb",
+      "name": "",
+      "topic": "",
+      "payload": "{ \"lastTimestamp\": 1539248400 }",
+      "payloadType": "json",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "x": 370,
+      "y": 140,
+      "wires": [
+        [
+          "6de7f7b4.a0ccb8"
+        ]
+      ]
+    }
+  ]
+}

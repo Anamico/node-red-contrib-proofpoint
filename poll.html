@@ -1,0 +1,43 @@
+<script type="text/javascript">
+    RED.nodes.registerType('poll', {
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: { value : "" },
+            persistenceFile: { value : "/data/proofpointTimestamp" }
+        },
+        credentials: {
+            username: {type:"text"},
+            password: {type:"password"}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "file.png",
+        label: function() {
+            return this.name || 'poll';
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="poll">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-username"><i class="icon-tag"></i> Username</label>
+        <input type="text" id="node-input-username">
+    </div>
+    <div class="form-row">
+        <label for="node-input-password"><i class="icon-tag"></i> Password</label>
+        <input type="password" id="node-input-password">
+    </div>
+    <div class="form-row">
+        <label for="node-input-persistenceFile"><i class="icon-tag"></i> Persistence File</label>
+        <input type="text" id="node-input-persistenceFile">
+    </div>   
+</script>
+
+<script type="text/x-red" data-help-name="poll">
+    <p>Poll the Proofpoint SIEM to get updated threat reputations. Outputs a payload per threat attachment.</p>
+</script>
