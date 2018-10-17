@@ -26,8 +26,11 @@ module.exports = function(RED) {
                 }],
             
                 proofpoint: ['params', function(data, callback) {
-                    util.pollProofpointSIEM(username, password, data.params.param, callback);
-                }],
+                    this.status({fill:"blue",shape:"ring",text:"polling"});
+                    util.pollProofpointSIEM(username, password, data.params.param, function(err, body) {
+                        this.status({});
+                    }.bind(this));
+                }.bind(this)],
                 
                 // todo: stream to a lexical parser to avoid latency and memory overheads
                 streamReputations: ['proofpoint', function(data, callback) {
