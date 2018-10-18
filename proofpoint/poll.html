@@ -1,7 +1,7 @@
 <script type="text/javascript">
     RED.nodes.registerType('poll proofpoint siem', {
         category: 'proofpoint',
-        color: '#51788D',
+        color: '#6BAE92',
         defaults: {
             name: { value : "" },
             persistenceFile: { value : "/data/proofpointTimestamp" }
@@ -11,7 +11,10 @@
             secret: { type:"password" }
         },
         inputs: 1,
-        outputs: 1,
+        outputs: 2,
+        inputLabels: "trigger",
+        outputLabels: ["reputations","metadata"],
+        paletteLabel: 'poll proofpoint siem',
         icon: "proofpoint.png",
         label: function() {
             return this.name || 'poll proofpoint siem';
@@ -42,9 +45,17 @@
         <label for="node-input-persistenceFile"><i class="icon-tag"></i> Persistence File</label>
         <input type="text" id="node-input-persistenceFile">
     </div>
+    <div class="form-tips"><b>Tip:</b> The Persistence File is a path to a json file used to persist the "Last Update Timestamp".</div>
 
 </script>
 
 <script type="text/x-red" data-help-name="poll proofpoint siem">
     <p>Poll the Proofpoint SIEM to get updated threat reputations. Outputs a payload per url and/or attachment.</p>
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">todo</span>
+        </dt>
+    <h3>Details</h3>
+    <p>Todo: Some more information about the node.</p>
 </script>

@@ -19,23 +19,29 @@ module.exports = function(RED) {
         //const persistenceFile = config.persistenceFile;
 
         node.on('input', function(msg) {
-            console.log(msg);
             async.auto({
                 lastTimestamp: function(callback) {
-                    if (msg.payload.timestamp) {
-                        return callback(null, msg.payload.timestamp);
+                    if (msg.payload.lastTimestamp) {
+                        return callback(null, msg.payload.lastTimestamp);
                     }
                     util.retrieveLastTimeStamp(node.persistenceFile, callback);
                 },
             
                 params: ['lastTimestamp', function(data, callback) {
+                    this.log('lastTimestamp', data.lastTimestamp);
                     callback(null, util.proofpointParams(data.lastTimestamp));
-                }],
+                }.bind(this)],
             
                 proofpoint: ['params', function(data, callback) {
-                    this.status({fill:"blue",shape:"ring",text:"polling"});
+                    this.debug('poll', data.params.param);
+                    this.status({ fill:"blue", shape:"ring", text:"polling" });
                     util.pollProofpointSIEM(principal, secret, data.params.param, function(err, body) {
+                        if (err) {
+                            this.status({ fill:"red", shape:"ring", text:err.message });
+                            return callback(err);
+                        }
                         this.status({});
+                        return callback(null, body);
                     }.bind(this));
                 }.bind(this)],
                 
@@ -43,9 +49,9 @@ module.exports = function(RED) {
                 streamReputations: ['proofpoint', function(data, callback) {
                     util.extractReputations(data.proofpoint, function(reputation, callback) {
                         console.log('handle reputation', reputation);
-                        node.send({
+                        node.send([{
                             payload: reputation
-                        });
+                        }]);
                         callback(null);
                     }, function(err, data) {
                         console.log('stream response', data);
@@ -68,8 +74,12 @@ module.exports = function(RED) {
                 if (err) { 
                     return console.log(err);
                 }
-                console.log('poll succeeded', data.persist);
-            });
+                const metadata = {
+                    lastTimestamp: data.proofpoint.queryEndTime
+                };
+                this.log('poll succeeded', data.persist);
+                node.send([null, metadata]);
+            }.bind(this));
 
             // msg.payload = msg.payload.toLowerCase();
             // node.send(msg);
