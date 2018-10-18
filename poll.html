@@ -1,43 +1,50 @@
 <script type="text/javascript">
-    RED.nodes.registerType('poll', {
+    RED.nodes.registerType('poll proofpoint siem', {
         category: 'proofpoint',
-        color: '#a6bbcf',
+        color: '#51788D',
         defaults: {
             name: { value : "" },
             persistenceFile: { value : "/data/proofpointTimestamp" }
         },
         credentials: {
-            username: {type:"text"},
-            password: {type:"password"}
+            principal: { type:"text" },
+            secret: { type:"password" }
         },
         inputs: 1,
         outputs: 1,
-        icon: "file.png",
+        icon: "proofpoint.png",
         label: function() {
-            return this.name || 'poll';
+            return this.name || 'poll proofpoint siem';
         }
     });
 </script>
 
-<script type="text/x-red" data-template-name="poll">
+<script type="text/x-red" data-template-name="poll proofpoint siem">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
-    <div class="form-row">
-        <label for="node-input-username"><i class="icon-tag"></i> Username</label>
-        <input type="text" id="node-input-username">
+
+    <div style="margin-left: 20px; display: block;" class="node-input-proofpointAuth-row">
+        <div class="form-row">
+            <label for="node-input-principal"><i class="fa fa-user"></i>
+            <span data-i18n="node-red:common.label.principal">Principal</span></label>
+            <input type="text" id="node-input-principal" dir="">
+        </div>
+        <div class="form-row">
+            <label for="node-input-secret"><i class="fa fa-lock"></i>
+            <span data-i18n="node-red:common.label.secret">Secret</span></label>
+            <input type="password" id="node-input-secret">
+        </div>
     </div>
-    <div class="form-row">
-        <label for="node-input-password"><i class="icon-tag"></i> Password</label>
-        <input type="password" id="node-input-password">
-    </div>
+
     <div class="form-row">
         <label for="node-input-persistenceFile"><i class="icon-tag"></i> Persistence File</label>
         <input type="text" id="node-input-persistenceFile">
-    </div>   
+    </div>
+
 </script>
 
-<script type="text/x-red" data-help-name="poll">
-    <p>Poll the Proofpoint SIEM to get updated threat reputations. Outputs a payload per threat attachment.</p>
+<script type="text/x-red" data-help-name="poll proofpoint siem">
+    <p>Poll the Proofpoint SIEM to get updated threat reputations. Outputs a payload per url and/or attachment.</p>
 </script>

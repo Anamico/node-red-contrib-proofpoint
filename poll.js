@@ -1,14 +1,21 @@
 const util = require('./util.js');
 const async = require('async');
 
+/*
+<div class="form-row">
+        <input type="checkbox" id="node-input-includeUrls" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-includeUrls" style="width: 70%;"><span data-i18n="node-red:httpin.basicauth">Use basic authentication</span></label>
+    </div>
+ */
+
 module.exports = function(RED) {
 
     function Poll(config) {
         RED.nodes.createNode(this, config);
         this.persistenceFile = config.persistenceFile;
         var node = this;
-        const username = this.credentials.username;
-        const password = this.credentials.password;
+        const principal = this.credentials.principal;
+        const secret = this.credentials.secret;
         //const persistenceFile = config.persistenceFile;
 
         node.on('input', function(msg) {
@@ -27,7 +34,7 @@ module.exports = function(RED) {
             
                 proofpoint: ['params', function(data, callback) {
                     this.status({fill:"blue",shape:"ring",text:"polling"});
-                    util.pollProofpointSIEM(username, password, data.params.param, function(err, body) {
+                    util.pollProofpointSIEM(principal, secret, data.params.param, function(err, body) {
                         this.status({});
                     }.bind(this));
                 }.bind(this)],
@@ -68,10 +75,10 @@ module.exports = function(RED) {
             // node.send(msg);
         });
     }
-    RED.nodes.registerType("poll", Poll, {
+    RED.nodes.registerType("poll proofpoint siem", Poll, {
         credentials: {
-            username: { type:"text" },
-            password: { type:"password" }
+            principal: { type:"text" },
+            secret: { type:"password" }
         }
     });
-}
+};
