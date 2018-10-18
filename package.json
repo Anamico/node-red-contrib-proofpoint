@@ -24,6 +24,15 @@
     "async": "^2.6.1",
     "request": "^2.88.0"
   },
+  "keywords": [
+    "proofpoint",
+    "siem",
+    "reputation",
+    "security",
+    "node-red",
+    "threat",
+    "automation"
+  ],
   "maintainers": [
     {
       "name": "Andrew Longhorn",

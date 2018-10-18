@@ -1,14 +1,14 @@
 # Proofpoint DXL Node-RED Client Nodes
 [![Latest NPM Version](https://img.shields.io/npm/v/Anamico/node-red-contrib-proofpoint.svg)](https://www.npmjs.com/package/Anamico/node-red-contrib-proofpoint)
 [![License](https://img.shields.io/github/license/Anamico/node-red-contrib-proofpoint.svg)](https://github.com/Anamico/node-red-contrib-proofpoint/blob/master/LICENSE)
-[![Awesome?](https://img.shields.io/badge/awesome-true-green.svg)](/)
+[![Awesome](https://img.shields.io/badge/awesome-true-green.svg)](https://github.com/Anamico/node-red-contrib-proofpoint)
 
 ## Overview
 
 The [Proofpoint](https://www.proofpoint.com/au/products/email-protection)
 (SIEM) Node-RED client package enables the development of flows in
 [Node-RED](https://nodered.org/) which use Proofpoint features (generate reputations, etc.) and enable integration with other security components, such as via the
-[Data Exchange Layer](http://www.mcafee.com/us/solutions/data-exchange-layer.aspx) (DXL) fabric (using additional nodes).
+[Data Exchange Layer](http://www.mcafee.com/us/solutions/data-exchange-layer.aspx) (DXL) fabric (such as with [node-red-contrib-dxl-tie-client](https://flows.nodered.org/node/@opendxl/node-red-contrib-dxl-tie-client)).
 
 ## Documentation
 
