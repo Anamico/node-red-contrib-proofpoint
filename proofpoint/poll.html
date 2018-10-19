@@ -50,12 +50,22 @@
 </script>
 
 <script type="text/x-red" data-help-name="poll proofpoint siem">
-    <p>Poll the Proofpoint SIEM to get updated threat reputations. Outputs a payload per url and/or attachment.</p>
+    <p>Poll the Proofpoint SIEM to get updated threat reputations. Outputs a payload per attachment.</p>
     <h3>Outputs</h3>
     <dl class="message-properties">
         <dt>payload
-            <span class="property-type">todo</span>
+            <span class="property-type">0 to n file reputation payloads pre-formatted for McAfee TIE set reputation DXL call</span>
         </dt>
+        <dt>metadata
+            <span class="property-type">information/stats on the last successful sync</span>
+        </dt>
+    </dl>
     <h3>Details</h3>
-    <p>Todo: Some more information about the node.</p>
+    <p>Note: This node currently only processes attachments to emails tagged as either:
+        <ul>
+            <li>'threat' = KNOWN_MALICIOUS, or</li>
+            <li>'clean' = MOST_LIKELY_TRUSTED</li>
+        </ul>
+        any other status (such as uploaded, in progress, unknown, etc) is currently ignored.
+    </p>
 </script>

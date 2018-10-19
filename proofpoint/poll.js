@@ -75,9 +75,11 @@ module.exports = function(RED) {
                     return console.log(err);
                 }
                 const metadata = {
-                    lastTimestamp: data.proofpoint.queryEndTime
+                    payload: {
+                        lastTimestamp: data.proofpoint.queryEndTime
+                    }
                 };
-                this.log('poll succeeded', data.persist);
+                this.log('poll succeeded', data.persist, metadata);
                 node.send([null, metadata]);
             }.bind(this));
 
