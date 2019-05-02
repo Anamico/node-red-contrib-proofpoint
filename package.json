@@ -8,7 +8,8 @@
   },
   "node-red": {
     "nodes": {
-      "poll": "proofpoint/poll.js"
+      "poll": "proofpoint/poll.js",
+      "proofpoint service": "proofpoint/proofpoint.js"
     }
   },
   "repository": "github:Anamico/node-red-contrib-proofpoint",

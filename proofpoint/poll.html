@@ -4,11 +4,8 @@
         color: '#6BAE92',
         defaults: {
             name: { value : "" },
+            proofpoint: { type: 'proofpoint service', required: true },
             persistenceFile: { value : "/data/proofpointTimestamp" }
-        },
-        credentials: {
-            principal: { type:"text" },
-            secret: { type:"password" }
         },
         inputs: 1,
         outputs: 2,
@@ -28,17 +25,9 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
 
-    <div style="margin-left: 20px; display: block;" class="node-input-proofpointAuth-row">
-        <div class="form-row">
-            <label for="node-input-principal"><i class="fa fa-user"></i>
-            <span data-i18n="node-red:common.label.principal">Principal</span></label>
-            <input type="text" id="node-input-principal" dir="">
-        </div>
-        <div class="form-row">
-            <label for="node-input-secret"><i class="fa fa-lock"></i>
-            <span data-i18n="node-red:common.label.secret">Secret</span></label>
-            <input type="password" id="node-input-secret">
-        </div>
+    <div class="form-row">
+        <label for="node-input-proofpoint"><i class="fa fa-server"></i> Service</label>
+        <input type="text" id="node-input-proofpoint" placeholder="proofpoint">
     </div>
 
     <div class="form-row">

@@ -1,22 +1,14 @@
 const util = require('./util.js');
 const async = require('async');
 
-/*
-<div class="form-row">
-        <input type="checkbox" id="node-input-includeUrls" style="display: inline-block; width: auto; vertical-align: top;">
-        <label for="node-input-includeUrls" style="width: 70%;"><span data-i18n="node-red:httpin.basicauth">Use basic authentication</span></label>
-    </div>
- */
-
 module.exports = function(RED) {
 
     function Poll(config) {
         RED.nodes.createNode(this, config);
         this.persistenceFile = config.persistenceFile;
-        var node = this;
-        const principal = this.credentials.principal;
-        const secret = this.credentials.secret;
-        //const persistenceFile = config.persistenceFile;
+        const node = this;
+
+        node._proofpoint = RED.nodes.getNode(config.proofpoint);
 
         node.on('input', function(msg) {
             async.auto({
@@ -28,22 +20,22 @@ module.exports = function(RED) {
                 },
             
                 params: ['lastTimestamp', function(data, callback) {
-                    this.log('lastTimestamp', data.lastTimestamp);
+                    node.log('lastTimestamp', data.lastTimestamp);
                     callback(null, util.proofpointParams(data.lastTimestamp));
-                }.bind(this)],
+                }],
             
                 proofpoint: ['params', function(data, callback) {
-                    this.debug('poll', data.params.param);
-                    this.status({ fill:"blue", shape:"ring", text:"polling" });
-                    util.pollProofpointSIEM(principal, secret, data.params.param, function(err, body) {
+                    node.debug('poll', data.params.param);
+                    node.status({ fill:"blue", shape:"ring", text:"polling" });
+                    node._proofpoint.poll(data.params.param, function(err, body) {
                         if (err) {
-                            this.status({ fill:"red", shape:"ring", text:err.message });
+                            node.status({ fill:"red", shape:"ring", text:err.message });
                             return callback(err);
                         }
-                        this.status({});
+                        node.status({});
                         return callback(null, body);
-                    }.bind(this));
-                }.bind(this)],
+                    });
+                }],
                 
                 // todo: stream to a lexical parser to avoid latency and memory overheads
                 streamReputations: ['proofpoint', function(data, callback) {
@@ -87,10 +79,5 @@ module.exports = function(RED) {
             // node.send(msg);
         });
     }
-    RED.nodes.registerType("poll proofpoint siem", Poll, {
-        credentials: {
-            principal: { type:"text" },
-            secret: { type:"password" }
-        }
-    });
+    RED.nodes.registerType("poll proofpoint siem", Poll);
 };

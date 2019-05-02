@@ -1,0 +1,49 @@
+<script type="text/javascript">
+    RED.nodes.registerType('proofpoint service', {
+        category: 'config',
+        color: '#6BAE92',
+        defaults: {
+            name: { value : "", required: true },
+            server: { value : "" }
+        },
+        credentials: {
+            principal: { type:"text" },
+            secret: { type:"password" }
+        },
+        icon: "proofpoint.png",
+        label: function() {
+            return this.name;
+        },
+        paletteLabel: 'Proofpoint'
+    });
+</script>
+
+<script type="text/x-red" data-template-name="proofpoint service">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-config-input-server"><i class="fa fa-server"></i> Server</label>
+        <input type="text" id="node-config-input-server" placeholder="192.168.1.12">
+    </div>
+    
+    <div style="margin-left: 20px; display: block;" class="node-config-input-proofpointAuth-row">
+        <div class="form-row">
+            <label for="node-config-input-principal"><i class="fa fa-user"></i>
+            <span data-i18n="node-red:common.label.principal">Principal</span></label>
+            <input type="text" id="node-config-input-principal" dir="">
+        </div>
+        <div class="form-row">
+            <label for="node-config-input-secret"><i class="fa fa-lock"></i>
+            <span data-i18n="node-red:common.label.secret">Secret</span></label>
+            <input type="password" id="node-config-input-secret">
+        </div>
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="proofpoint service">
+    <p></p>
+</script>
