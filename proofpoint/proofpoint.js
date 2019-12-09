@@ -11,20 +11,21 @@ module.exports = function(RED) {
 
         this.poll = function (params, callback) {
 
-            if (!config.server) {
-                callback(new Error('Missing Proofpoint Hostname/IP'));
-                return;
-            }
-            if (!config.principal) {
+            // if (!config.server) {
+            //     callback(new Error('Missing Proofpoint Hostname/IP'));
+            //     return;
+            // }
+            // server = "tap-api-v2.proofpoint.com"
+            if (!principal) {
                 callback(new Error('Missing Principal'));
                 return;
             }
-            if (!config.secret) {
+            if (!secret) {
                 callback(new Error('Missing Secret'));
                 return;
             }
 
-            util.pollProofpointSIEM(principal, secret, params, callback);
+            util.pollProofpointSIEM(/* server, */principal, secret, params, callback);
         }
     }
 

@@ -29,7 +29,7 @@
   "homepage": "https://flows.nodered.org/node/node-red-contrib-proofpoint",
   "bugs": "https://github.com/Anamico/node-red-contrib-proofpoint/issues",
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^3.1.0",
     "request": "^2.88.0"
   },
   "keywords": [
