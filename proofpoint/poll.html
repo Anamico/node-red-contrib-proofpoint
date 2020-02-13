@@ -5,7 +5,8 @@
         defaults: {
             name: { value : "" },
             proofpoint: { type: 'proofpoint service', required: true },
-            persistenceFile: { value : "/data/proofpointTimestamp" }
+            persistenceFile: { value : "" },
+            persistenceVar: { value : "" }
         },
         inputs: 1,
         outputs: 2,
@@ -32,21 +33,45 @@
 
     <div class="form-row">
         <label for="node-input-persistenceFile"><i class="icon-tag"></i> Persistence File</label>
-        <input type="text" id="node-input-persistenceFile">
+        <input type="text" id="node-input-persistenceFile" placeholder="Optional">
     </div>
-    <div class="form-tips"><b>Tip:</b> The Persistence File is a path to a json file used to persist the "Last Update Timestamp".</div>
+    <div class="form-tips"><b>Tip:</b> The Persistence File is a path to a
+        json file used to persist the "Last Update Timestamp".</div>
+
+    <div class="form-row">
+        <label for="node-input-persistenceVar"><i class="icon-tag"></i> Persistence Variable</label>
+        <input type="text" id="node-input-persistenceVar" placeholder="Optional">
+    </div>
+    <div class="form-tips"><b>Tip:</b> The Persistence Variable is used to persist the "Last Update Timestamp"
+        if there is no persistence file.
+        Note that if you leave both blank, then an internal persistence variable will be assigned.</div>
 
 </script>
 
 <script type="text/x-red" data-help-name="poll proofpoint siem">
     <p>Poll the Proofpoint SIEM to get updated threat reputations. Outputs a payload per attachment.</p>
+    <h3>Input</h3>
+    msg.payload is optional. If it is fed in as a json object in the format below,
+    then it will use the supplied timestamp as the initial starting point. But it will use that
+    timestamp every time it is supplied.
+    <dl class="message-properties">
+        <dt>msg.payload
+            <span class="property-type" style="display: inline-block; white-space: pre;">
+{<br>
+    "lastTimestamp" : "2020-02-01T09:00:00Z"<br>
+}
+            </span>
+        </dt>
+    </dl>
+    To get the polling to advance on each msg it receives, you need to make sure the payload
+    does <u><b>NOT</b></u> contain a "lastTimestamp" property.
     <h3>Outputs</h3>
     <dl class="message-properties">
-        <dt>payload
-            <span class="property-type">0 to n file reputation payloads pre-formatted for McAfee TIE set reputation DXL call</span>
+        <dt>reputations
+            <span class="property-type" style="display: inline-block; white-space: normal;">0 to n file reputation payloads pre-formatted for McAfee TIE set reputation DXL call</span>
         </dt>
         <dt>metadata
-            <span class="property-type">information/stats on the last successful sync</span>
+            <span class="property-type" style="display: inline-block; white-space: normal;">information/stats on the last successful sync</span>
         </dt>
     </dl>
     <h3>Details</h3>

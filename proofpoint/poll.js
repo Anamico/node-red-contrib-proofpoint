@@ -6,17 +6,32 @@ module.exports = function(RED) {
     function Poll(config) {
         RED.nodes.createNode(this, config);
         this.persistenceFile = config.persistenceFile;
+        this.persistenceVar = (config.persistenceVar && config.persistenceVar.length && (config.persistenceVar.length > 0) && config.persistenceVar) ||
+            ('proofpointPersistence-' + this.id);
         const node = this;
 
         node._proofpoint = RED.nodes.getNode(config.proofpoint);
 
         node.on('input', function(msg) {
+            var globalContext = this.context().global;
             async.auto({
                 lastTimestamp: function(callback) {
                     if (msg.payload.lastTimestamp) {
                         return callback(null, msg.payload.lastTimestamp);
                     }
-                    util.retrieveLastTimeStamp(node.persistenceFile, callback);
+                    var defaultStart = new Date();
+                    defaultStart.setDate(d.getDate() - 12); // Default start is 12 days prior to now
+                    // use a persistence file first, but if that doesn't work, try for a persistence var or default it
+                    if (node.persistenceFile && node.persistenceFile.length && (node.persistenceFile.length > 0)) {
+                        util.retrieveLastTimeStamp(node.persistenceFile, function(err, lastTimestamp) {
+                            if (err || lastTimestamp) { callback(err, lastTimestamp); }
+                            lastTimestamp = globalContext.get(this.persistenceVar) || defaultStart.toISOString();
+                            callback(null, lastTimestamp);
+                        });
+                    } else {
+                        lastTimestamp = globalContext.get(this.persistenceVar) || defaultStart.toISOString();
+                        callback(null, lastTimestamp);
+                    }
                 },
             
                 params: ['lastTimestamp', function(data, callback) {
@@ -33,6 +48,7 @@ module.exports = function(RED) {
                             return callback(err);
                         }
                         node.status({});
+                        node.warn(body);
                         return callback(null, body);
                     });
                 }],
@@ -51,15 +67,26 @@ module.exports = function(RED) {
                     });
                 }],
             
-                persist: ['streamReputations', function(data, callback) {
-                    const lastTimestamp = data.proofpoint.queryEndTime;
-                    console.log('persist?', lastTimestamp);
-                    if ( !lastTimestamp || msg.payload.timestamp ) {
+                newLastTimestamp: ['streamReputations', function(data, callback) {
+                    callback(null, data.proofpoint.queryEndTime);
+                }],
+
+                persistFile: ['newLastTimestamp', function(data, callback) {
+                    console.log('persist?', data.newLastTimestamp);
+                    if ( !data.newLastTimestamp ) {
                         return callback(null);
                     }
-                    util.persistLastTimeStamp(node.persistenceFile, lastTimestamp, function(err) {
-                        return callback(err, lastTimestamp);
+                    util.persistLastTimeStamp(node.persistenceFile, data.newLastTimestamp, function(err) {
+                        return callback(err, data.newLastTimestamp);
                     });
+                }],
+
+                persistVar: ['newLastTimestamp', function(data, callback) {
+                    console.log('persist var?', data.newLastTimestamp);
+                    if ( !data.newLastTimestamp ) {
+                        return callback(null);
+                    }
+                    globalContext.set(this.persistenceVar, data.newLastTimestamp);
                 }]
             
             }, function(err, data) {
@@ -68,10 +95,10 @@ module.exports = function(RED) {
                 }
                 const metadata = {
                     payload: {
-                        lastTimestamp: data.proofpoint.queryEndTime
+                        lastTimestamp: data.newLastTimestamp
                     }
                 };
-                this.log('poll succeeded', data.persist, metadata);
+                this.log('poll succeeded', data.newLastTimestamp, metadata);
                 node.send([null, metadata]);
             }.bind(this));
 
