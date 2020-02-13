@@ -12,12 +12,42 @@ The [Proofpoint](https://www.proofpoint.com/au/products/email-protection)
 
 ## Documentation
 
-See the [Wiki](https://github.com/Anamico/node-red-contrib-proofpoint/wiki)
-for an overview of the Proofpoint Node-RED client package and examples.
+This node provides a wrapper and process for polling and retrieving/processing reputations from the Proofpoint TAP SIEM API.
 
-See the
-[Proofpoint Node-RED Client Documentation](https://opendxl.github.io/node-red-contrib-proofpoint/jsdoc/)
-for installation instructions, API documentation, and examples.
+To use this node you need a couple of things.
+
+1. A set of TAP API credentials, see your proofpoint documentation on how to create these, you should end up with a principal and a secret key.
+2. A way of persisting the "last" polled data timestamp.
+
+## How it works
+
+The Proofpoint SIEM API allows a customer of proofpoint to request certain data around convictions from their TAP service.
+
+The API is a little clunky, in that you need to specify a period, you cannot get more than an hours worth of data (period width) and you cannot go back more than 14 days. Presumably this is implemented in this fashion to work around the natural limitation of batch retrievals. That is, the REST request to return reputations will respond with a list of reputations in a single response body that would grow too big to be manageable if unbound. Obviously some streaming approach would be a more manageable and modern approach, but this is what we are stuck with.
+
+So in order to pull all reputations out of Proofpoint using this API, if you want to keep pulling them, then we need to make multiple calls to get up to date and need to continually poll to stay up to date.
+
+This node helps achieve that. You set it up and in the absence of any alternate timestamp, it will start poll for the last hour the first time you trigger it. After the first successful retrieval, the "last sync" timestamp will be persisted and then used as the input to the following call.
+
+So it is designed so you install it, configure the credentials for the Proofpoint SIEM API, and inject an initial timestamp. This will trigger a pull from proofpoint and on successful processing (extracting each reputation), it will persist the last sync timestamp to use as input for the next poll. Then, once seeded, you can set up a periodic input to send an empty payload on a regular basis to trigger another pull.
+
+The node will take the mega returned list of reputations and spit out individual messages on the top output per reputation, ie: if you call this node once, at it receives 123 reputations, it will spit out 123 individual reputation messages on that top connector. The bottom connector will spit out a new timestamp being the end point for the last poll. This is persisted internally anyway for reuse (see below), but is also emitted on the second connector so you can update a dashboard or use it in a notification, etc.
+
+The best way to use this noode is to ping it once with a start date/timestamp injection node to seed the system (using a timestamp in the last 2 weeks as a starting point), then set it up permanently with a repeating trigger with an empty msg payload, preferrably on a timer such as once every 10 minutes. What this means is if the system falls behind, then over time it will make 6 calls per hour of up to 1 hour of historical data, eventually coming up to the current time again.
+
+## Persistance
+
+In order for the system to work properly (poll repeatedly to continue to retrieve the latest reputations), the node needs to persist each last timestamp and use it on the following call, even if the node instance is shut down or reboots.
+
+To do this, you pick one of 3 options.
+
+1. Specify a path to a persistence file,
+2. Specify a global variable name for persistence, or
+3. Rely on a default global persistence variable for the node.
+
+Note that for options 2 or 3, it is advised to set up storage in the node instance, otherwise a reboot or restart of the process will lose the last timestamp and the process will not know where to start again.
+For option 1, the node process will need read/write access to the destination path and the path needs to exist.
+
 
 ## Bugs and Feedback
 
