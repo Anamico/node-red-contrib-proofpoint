@@ -20,7 +20,7 @@ module.exports = function(RED) {
                         return callback(null, msg.payload.lastTimestamp);
                     }
                     var defaultStart = new Date();
-                    defaultStart.setDate(d.getDate() - 12); // Default start is 12 days prior to now
+                    defaultStart.setDate(defaultStart.getDate() - 12); // Default start is 12 days prior to now
                     // use a persistence file first, but if that doesn't work, try for a persistence var or default it
                     if (node.persistenceFile && node.persistenceFile.length && (node.persistenceFile.length > 0)) {
                         util.retrieveLastTimeStamp(node.persistenceFile, function(err, lastTimestamp) {
