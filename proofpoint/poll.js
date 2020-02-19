@@ -6,16 +6,21 @@ module.exports = function(RED) {
     function Poll(config) {
         RED.nodes.createNode(this, config);
         this.persistenceFile = config.persistenceFile;
-        this.persistenceVar = (config.persistenceVar && config.persistenceVar.length && (config.persistenceVar.length > 0) && config.persistenceVar) ||
-            ('proofpointPersistence-' + this.id);
         const node = this;
+
+        node.persistenceVar = (config.persistenceVar && config.persistenceVar.length && (config.persistenceVar.length > 0) && config.persistenceVar) ||
+            ('proofpointPersistence-' + node.id.replace(/\./g, '_'));
 
         node._proofpoint = RED.nodes.getNode(config.proofpoint);
 
         node.on('input', function(msg) {
             var globalContext = this.context().global;
             async.auto({
-                lastTimestamp: function(callback) {
+                executionTime: function(callback) {
+                    return callback(null, (new Date()).toISOString());
+                },
+
+                lastTimestamp: ['executionTime', function(data, callback) {
                     if (msg.payload.lastTimestamp) {
                         return callback(null, msg.payload.lastTimestamp);
                     }
@@ -25,16 +30,36 @@ module.exports = function(RED) {
                     if (node.persistenceFile && node.persistenceFile.length && (node.persistenceFile.length > 0)) {
                         util.retrieveLastTimeStamp(node.persistenceFile, function(err, lastTimestamp) {
                             if (err || lastTimestamp) { callback(err, lastTimestamp); }
-                            lastTimestamp = globalContext.get(this.persistenceVar) || defaultStart.toISOString();
+                            lastTimestamp = globalContext.get(node.persistenceVar) || defaultStart.toISOString();
                             callback(null, lastTimestamp);
                         });
                     } else {
-                        lastTimestamp = globalContext.get(this.persistenceVar) || defaultStart.toISOString();
+                        lastTimestamp = globalContext.get(node.persistenceVar) || defaultStart.toISOString();
                         callback(null, lastTimestamp);
                     }
-                },
+                }],
             
-                params: ['lastTimestamp', function(data, callback) {
+                validStart: ['lastTimestamp', function(data, callback) {
+                    const timeStamp = new Date(data.lastTimestamp);
+                    if (!timeStamp) {
+                        const err = new Error('Missing/Invalid lastTimestamp');
+                        node.status({ fill:"red", shape:"ring", text:err.message });
+                        return callback(err);
+                    }
+
+                    var earliest = new Date();
+                    earliest.setDate(earliest.getDate() - 14);
+
+                    if (timeStamp < earliest) {
+                        const err = new Error('Timestamp > 14 days old');
+                        node.status({ fill:"red", shape:"ring", text:err.message });
+                        return callback(err);
+                    }
+
+                    return callback(null);
+                }],
+
+                params: ['validStart', function(data, callback) {
                     node.log('lastTimestamp', data.lastTimestamp);
                     callback(null, util.proofpointParams(data.lastTimestamp));
                 }],
@@ -82,11 +107,11 @@ module.exports = function(RED) {
                 }],
 
                 persistVar: ['newLastTimestamp', function(data, callback) {
-                    console.log('persist var?', data.newLastTimestamp);
+                    console.log('persist var?', node.persistenceVar, data.newLastTimestamp);
                     if ( !data.newLastTimestamp ) {
                         return callback(null);
                     }
-                    globalContext.set(this.persistenceVar, data.newLastTimestamp);
+                    globalContext.set(node.persistenceVar, data.newLastTimestamp);
                 }]
             
             }, function(err, data) {
