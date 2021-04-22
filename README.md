@@ -3,14 +3,14 @@
 [![License](https://img.shields.io/github/license/Anamico/node-red-contrib-proofpoint.svg)](https://github.com/Anamico/node-red-contrib-proofpoint/blob/master/LICENSE)
 [![Awesome](https://img.shields.io/badge/awesome-true-green.svg)](https://github.com/Anamico/node-red-contrib-proofpoint)
 
-## Overview
+# Overview
 
 The [Proofpoint](https://www.proofpoint.com/au/products/email-protection)
 (SIEM) Node-RED client package enables the development of flows in
 [Node-RED](https://nodered.org/) which use Proofpoint features (generate reputations, etc.) and enable integration with other security components, such as via the
 [Data Exchange Layer](http://www.mcafee.com/us/solutions/data-exchange-layer.aspx) (DXL) fabric (such as with [node-red-contrib-dxl-tie-client](https://flows.nodered.org/node/@opendxl/node-red-contrib-dxl-tie-client)).
 
-## Documentation
+# Documentation
 
 This node provides a wrapper and process for polling and retrieving/processing reputations from the Proofpoint TAP SIEM API.
 
@@ -48,13 +48,20 @@ To do this, you pick one of 3 options.
 Note that for options 2 or 3, it is advised to set up storage in the node instance, otherwise a reboot or restart of the process will lose the last timestamp and the process will not know where to start again.
 For option 1, the node process will need read/write access to the destination path and the path needs to exist.
 
+## A few notes about working behind a corporate proxy
 
-## Bugs and Feedback
+I realise the majority of enterprise installations will be working behind a proxy. This just requires a few extra steps for installation of node-red, node-red plugins and connection to the Proofpoint TAP SIEM APIs. But this these nodes have been installed successfully in quite a few large organisations with strict security with no issues. Just take some time to work out the extra steps required as a vanilla node-red installation does not readily support this deployment without a little extra work.
 
-For bugs, questions and discussions please use the
+Bear in mind also, if you are prototyping this for an organisation on a workstation or VM, you are most likely going to need a few exceptions or to run with something like fiddler. This is a well known requirement for utilising node-red behind a proxy and is by virtue of how proxies work. The solutions are available and you just need to choose the combination appropriate for your environment.
+
+Once you are installing into production, the process should become easier as proxy rules can be attached to appropriate server classes/groupings to allow unauthenticated proxy traffic or proxy bypass to required endpoints as you see fit in your organisation. 
+
+# Bugs and Feedback
+
+For bugs, questions and discussions please log/discuss here 
 [GitHub Issues](https://github.com/Anamico/node-red-contrib-proofpoint/issues).
 
-## LICENSE
+# LICENSE
 
 Copyright (c) 2018 Andrew Longhorn <Andrew_Longhorn@McAfee.com>
 
