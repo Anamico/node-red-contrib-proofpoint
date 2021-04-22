@@ -19,13 +19,24 @@ To use this node you need a couple of things.
 1. A set of TAP API credentials, see your proofpoint documentation on how to create these, you should end up with a principal and a secret key.
 2. A way of persisting the "last" polled data timestamp.
 
+## Flow example
+
+![Proofpoint to TIE Example](https://github.com/Anamico/node-red-contrib-proofpoint/raw/master/images/flow.png "Proofpoint to TIE Example")
+
+This example shows how to set up and poll the proofpoint interface, then feed any discovered reputations to McAfee TIE via DXL (using the McAfee TIE node-red nodes).
+
 ## How it works
 
 The Proofpoint SIEM API allows a customer of proofpoint to request certain data around convictions from their TAP service.
 
-The API is a little clunky, in that you need to specify a period, you cannot get more than an hours worth of data (period width) and you cannot go back more than 14 days. Presumably this is implemented in this fashion to work around the natural limitation of batch retrievals. That is, the REST request to return reputations will respond with a list of reputations in a single response body that would grow too big to be manageable if unbound. Obviously some streaming approach would be a more manageable and modern approach, but this is what we are stuck with.
+The Proofpoint API is a little clunky, in that:
+1. you need to specify a period,
+2. you cannot get more than an hours worth of data (period width), and
+3. you cannot go back more than 14 days.
 
-So in order to pull all reputations out of Proofpoint using this API, if you want to keep pulling them, then we need to make multiple calls to get up to date and need to continually poll to stay up to date.
+Presumably this is implemented in this fashion to work around the natural limitation of batch-style retrievals. That is, the REST request to return reputations will respond with a list of reputations in a single response body that would grow too big to be manageable if unbound. Obviously some streaming approach would be a more manageable and modern approach, but this is what we are stuck with (obviously a more modern streaming approach would get around all these issues).
+
+So in order to pull all reputations out of Proofpoint using this API, you need to make multiple calls to get up to date and need to continually poll to stay up to date.
 
 This node helps achieve that. You set it up and in the absence of any alternate timestamp, it will start poll for the last hour the first time you trigger it. After the first successful retrieval, the "last sync" timestamp will be persisted and then used as the input to the following call.
 
