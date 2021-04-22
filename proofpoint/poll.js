@@ -29,13 +29,13 @@ module.exports = function(RED) {
                     // use a persistence file first, but if that doesn't work, try for a persistence var or default it
                     if (node.persistenceFile && node.persistenceFile.length && (node.persistenceFile.length > 0)) {
                         util.retrieveLastTimeStamp(node.persistenceFile, function(err, lastTimestamp) {
-                            if (err || lastTimestamp) { callback(err, lastTimestamp); }
+                            if (err || lastTimestamp) { return callback(err, lastTimestamp); }
                             lastTimestamp = globalContext.get(node.persistenceVar) || defaultStart.toISOString();
-                            callback(null, lastTimestamp);
+                            return callback(null, lastTimestamp);
                         });
                     } else {
                         lastTimestamp = globalContext.get(node.persistenceVar) || defaultStart.toISOString();
-                        callback(null, lastTimestamp);
+                        return callback(null, lastTimestamp);
                     }
                 }],
             
@@ -61,7 +61,7 @@ module.exports = function(RED) {
 
                 params: ['validStart', function(data, callback) {
                     node.log('lastTimestamp', data.lastTimestamp);
-                    callback(null, util.proofpointParams(data.lastTimestamp));
+                    return callback(null, util.proofpointParams(data.lastTimestamp));
                 }],
             
                 proofpoint: ['params', function(data, callback) {
@@ -85,15 +85,15 @@ module.exports = function(RED) {
                         node.send([{
                             payload: reputation
                         }]);
-                        callback(null);
+                        return callback(null);
                     }, function(err, data) {
                         console.log('stream response', data);
-                        callback(err, data);
+                        return callback(err, data);
                     });
                 }],
             
                 newLastTimestamp: ['streamReputations', function(data, callback) {
-                    callback(null, data.proofpoint.queryEndTime);
+                    return callback(null, data.proofpoint.queryEndTime);
                 }],
 
                 persistFile: ['newLastTimestamp', function(data, callback) {
