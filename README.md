@@ -1,5 +1,5 @@
 # Proofpoint DXL Node-RED Client Nodes
-[![Latest NPM Version](https://img.shields.io/npm/v/Anamico/node-red-contrib-proofpoint.svg)](https://www.npmjs.com/package/Anamico/node-red-contrib-proofpoint)
+[![Latest NPM Version](https://img.shields.io/npm/v/node-red-contrib-proofpoint.svg)](https://www.npmjs.com/package/node-red-contrib-proofpoint)
 [![License](https://img.shields.io/github/license/Anamico/node-red-contrib-proofpoint.svg)](https://github.com/Anamico/node-red-contrib-proofpoint/blob/master/LICENSE)
 [![Awesome](https://img.shields.io/badge/awesome-true-green.svg)](https://github.com/Anamico/node-red-contrib-proofpoint)
 
