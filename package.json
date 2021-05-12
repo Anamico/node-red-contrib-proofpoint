@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-proofpoint",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "description": "Proofpoint DXL nodes for Node-RED",
   "main": "index.js",
   "scripts": {
