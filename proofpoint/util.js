@@ -31,11 +31,15 @@ const constant = {
         // reference: https://help.proofpoint.com/Threat_Insight_Dashboard/API_Documentation/SIEM_API
         // todo: make these default but customizable per environment/install?
         fromProofpoint: function(sandboxStatus) {
-            if (sandboxStatus == 'threat') {
-                return trustLevel.KNOWN_MALICIOUS;
+            let status = sandboxStatus && sandboxStatus.toLowerCase && sandboxStatus.toLowerCase();
+            if (!status) {
+                return null;
             }
-            if (sandboxStatus == 'clean') {
-                return trustLevel.MOST_LIKELY_TRUSTED;
+            if (status == 'threat') {
+                return 1; //trustLevel.KNOWN_MALICIOUS;
+            }
+            if (status == 'clean') {
+                return 99; //trustLevel.MOST_LIKELY_TRUSTED;
             }
             return null;
         }
