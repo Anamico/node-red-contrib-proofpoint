@@ -82,9 +82,7 @@ module.exports = function(RED) {
                 streamReputations: ['proofpoint', function(data, callback) {
                     util.extractReputations(data.proofpoint, function(reputation, callback) {
                         console.log('handle reputation', reputation);
-                        node.send([{
-                            payload: reputation
-                        }]);
+                        node.send([reputation]);
                         return callback(null);
                     }, function(err, data) {
                         console.log('stream response', data);
