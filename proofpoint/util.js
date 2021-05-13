@@ -1,5 +1,6 @@
 const fs = require('fs');
 const request = require('request');
+const https = require('https');
 const async = require('async');
 
 const constant = {
@@ -59,16 +60,13 @@ function extractAttachmentReputations(blocked, processReputation, message, mainC
         if (trustLevel) {       // currently only 'threat' and 'clean'
             const payload = {
                 trustLevel: trustLevel,
-                providerId: constant.fileProvider.ENTERPRISE,
-                filename: part.filename,
+                //providerId: constant.fileProvider.ENTERPRISE,
+                fileName: part.filename,
                 comment: "from Proofpoint",
-                hashes: [{
-                    type: constant.hashType.MD5,
-                    value: part.md5
-                }, {
-                    type: constant.hashType.SHA256,
-                    value: part.sha256
-                }]
+                hashes: {
+                    md5: part.md5,
+                    sha256: part.sha256
+                }
             };
             return processReputation(payload, callback);
         }
@@ -76,6 +74,18 @@ function extractAttachmentReputations(blocked, processReputation, message, mainC
     }, mainCallback);
 }
 
+
+var agentOptions;
+var agent;
+
+agentOptions = {
+  host: 'tap-api-v2.proofpoint.com'
+, port: '443'
+, path: '/'
+, rejectUnauthorized: false
+};
+
+agent = new https.Agent(agentOptions);
 
 
 module.exports = {
@@ -164,6 +174,7 @@ module.exports = {
             method: 'GET',
             uri: uri,
             json: true,
+            //agent: agent,
             auth: {
                 user: username,
                 pass: password,
